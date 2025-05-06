@@ -4,30 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <title>Ceneo.pl web scraper</title>
+    
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
 </head>
-<body>
-    <header></header>
-    <nav>
-        <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm" id="pillNav2" role="tablist" style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-primary); --bs-nav-pills-link-active-bg: var(--bs-white);">
-            <li class="nav-item" role="presentation">
-              <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="true">Home</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Profile</button>
-            </li>
-            <li class="nav-item" role="presentation">
-              <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab" aria-selected="false">Contact</button>
-            </li>
-          </ul>
+<body class="bg-light text-dark">
+
+    {% set header_title = self.title() %}
+    <header class="text-center bg-secondary bg-gradient  mb-0 text-muted">
+        <h1 class="mb-0 px-2 py-1">{{ header_title }}</h1>
+    </header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mt-0">
+        <div class="container-fluid px-3">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Przełącz nawigację">                
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav d-flex flex-row gap-3 ms-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">Strona Główna</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('display_form') }}">Ekstrakcja Opinii</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('products') }}">Lista Produktów</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('author') }}">O Autorze</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+              
     </nav>
-    <section></section>
-    <footer></footer>
-    
 
+    <section class="container my-5">
+        {% block content %}
 
+        {% endblock %}
+    </section>
+
+    <footer class="bg-dark text-white text-center py-3 mt-auto">
+        <div class="container">
+            <small>&copy; 2025 Ceneo.pl Web Scraper by Adam Starowicz - ANS w Nowym Targu</small>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    
-
 </body>
 </html>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+Ekstrakcja Opinii
+{% endblock %}
+{% block content %}
+    <div class="text-center">
+    </div>
+    <br />
+    <form method="POST" action="{{ url_for('extract_data') }}">
+        <div class="row">
+            <div class="col d-flex justify-content-end align-items-baseline">
+                <label for="product_id" class="form-label">Podaj kod produktu</label>
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="product_id" name="product_id" placeholder="kod produktu" required>
+            </div>
+            <div class="col">
+                    <button type="submit" class="btn btn-primary mb-3 col">Pobierz opinie</button>
+            </div>
+        </div>
+      </form>
+{% endblock %}

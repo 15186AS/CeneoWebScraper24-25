@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}
+
+{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ product.product_name }}</h2>
+    <br />
+    <strong>ID:</strong> {{ product.product_id }}
+    <strong>Średnia ocen:</strong> {{ product.average_stars | round(2) }}
+    <strong>Liczba opinii:</strong> {{ product.opinions_count }}
+
+    <hr>
+
+    <h4>Opinie:</h4>
+    <br />
+    {% if opinions %}
+        <div class="list-group">
+            {% for op in opinions %}
+                <div class="list-group-item mb-5 p-3 border rounded">
+                    <h5>{{ op.author }} – {{ op.stars }}</h5>
+                    <p>{{ op.content }}</p>
+
+                    {% if op.pros %}
+                        <p style="background-color:rgba(0, 255, 0, 0.281);"><strong>Zalety:</strong> {{ op.pros | join(", ") }}</p>
+                    {% endif %}
+                    {% if op.cons %}
+                        <p style="background-color:rgba(255, 0, 0, 0.281);"><strong>Wady:</strong> {{ op.cons | join(", ") }}</p>
+                    {% endif %}
+
+                    <small><strong>Rekomendacja:</strong> {{ op.recommendation or 'Brak' }} | <strong>Przydatna:</strong> {{ op.useful }} / {{ op.useless }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Brak opinii dla tego produktu.</p>
+    {% endif %}
+</div>
+{% endblock %}
