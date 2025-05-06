@@ -12,6 +12,7 @@ Lista Produktów
         <th scope="col">Ilość zalet</th>
         <th scope="col">Ilość wad</th>
         <th scope="col">Średnia</th>
+        <th scope="col">Pobierz</th>
       </tr>
     </thead>
     <tbody>
@@ -22,7 +23,8 @@ Lista Produktów
         <td style="background-color:rgba(0, 0, 255, 0.281);">{{ product.opinions_count }}</td>
         <td style="background-color:rgba(0, 255, 0, 0.281);"> {{ product.recommendation_distr.Polecam or 0 }}</td>
         <td style="background-color:rgba(255, 0, 0, 0.281);">{{ product.recommendation_distr['Nie polecam'] or 0 }}  </td>
-        <td style="background-color:rgba(255, 255, 0, 0.281);"> {{ "%.2f"|format(product.average_stars) }} ★</td>       
+        <td style="background-color:rgba(255, 255, 0, 0.281);"> {{ "%.2f"|format(product.average_stars) }} ★</td>
+        <td></td>       
       </tr>
     
       {% endfor %}
