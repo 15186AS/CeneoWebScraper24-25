@@ -24,10 +24,15 @@ Lista Produktów
         <td style="background-color:rgba(0, 255, 0, 0.281);"> {{ product.recommendation_distr.Polecam or 0 }}</td>
         <td style="background-color:rgba(255, 0, 0, 0.281);">{{ product.recommendation_distr['Nie polecam'] or 0 }}  </td>
         <td style="background-color:rgba(255, 255, 0, 0.281);"> {{ "%.2f"|format(product.average_stars) }} ★</td>
-        <td></td>       
+        <td>
+          <a href="{{ url_for('download_file', product_id=product.product_id, format='json') }}" class="btn btn-outline-primary btn-sm me-2">Pobierz JSON</a>
+          <a href="{{ url_for('download_file', product_id=product.product_id, format='csv') }}" class="btn btn-outline-secondary btn-sm me-2">CSV</a>
+          <a href="{{ url_for('download_file', product_id=product.product_id, format='xlsx') }}" class="btn btn-outline-success btn-sm">XLSX</a>
+        </td>       
       </tr>
     
       {% endfor %}
     </tbody>
   </table>
+
 {% endblock %}
