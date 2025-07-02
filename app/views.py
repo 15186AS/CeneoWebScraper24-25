@@ -119,6 +119,8 @@ def product(product_id):
     opinions.pros = opinions.pros.apply(list_to_html)
     opinions.cons = opinions.cons.apply(list_to_html)
 
+    return render_template("product.html", opinions=opinions.to_html(classes="table table-hover table-bordered table-striped", index=False), product_id=product_id)
+
 @app.route('/download/<product_id>/<format>')
 def download_file(product_id, format):
     opinions_path = os.path.join("./app/data/opinions", f"{product_id}.json")
