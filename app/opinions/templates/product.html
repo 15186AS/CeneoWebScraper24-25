@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Opinie o Produkcie{% endblock %}
+{% block content %}
+    <h1 class="mb-4">Opinie o produkcie: {{ product_name }} (ID: {{ product_id }})</h1>
+
+    {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+            <a href="{{ url_for('opinions.extract_data') }}" class="alert-link">Wróć do formularza ekstrakcji.</a>
+        </div>
+    {% else %}
+        <div class="mb-4">
+            <a href="{{ url_for('opinions.products') }}" class="btn btn-secondary">Wróć do listy produktów</a>
+            <a href="{{ url_for('opinions.download_file', product_id=product_id, format='json') }}" class="btn btn-info">Pobierz JSON</a>
+            <a href="{{ url_for('opinions.download_file', product_id=product_id, format='csv') }}" class="btn btn-info">Pobierz CSV</a>
+            <a href="{{ url_for('opinions.download_file', product_id=product_id, format='xlsx') }}" class="btn btn-info">Pobierz XLSX</a>
+        </div>
+
+        <table class="table table-hover table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID Opinii</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">Rekomendacja</th>
+                    <th scope="col">Gwiazdki</th>
+                    <th scope="col">Treść</th>
+                    <th scope="col">Zalety</th>
+                    <th scope="col">Wady</th>
+                    <th scope="col">Przydatne</th>
+                    <th scope="col">Nieprzydatne</th>
+                    <th scope="col">Data Wystawienia</th>
+                    <th scope="col">Data Zakupu</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for index, opinion in opinions.iterrows() %}
+                <tr>
+                    <td>{{ opinion.opinion_id }}</td>
+                    <td>{{ opinion.author }}</td>
+                    <td>{{ opinion.recommendation if opinion.recommendation else 'Brak' }}</td>
+                    <td>{{ opinion.stars }}</td>
+                    <td style="min-width: 250px; max-width: 500px;">
+                        {% if opinion.full_original_content %} {# Jeśli jest coś do rozwinięcia #}
+                            <span class="truncated-text">{{ opinion.display_content | safe }}</span>
+                            <span class="full-text" style="display:none;">{{ opinion.full_original_content | safe }}</span>
+                            <a href="#" class="toggle-button" data-index="{{ index }}">czytaj więcej</a>
+                        {% else %}
+                            {{ opinion.display_content | safe }} {# Wyświetl całą treść, jeśli nie skrócono #}
+                        {% endif %}
+                    </td>
+                    <td>{{ opinion.pros | safe }}</td>
+                    <td>{{ opinion.cons | safe }}</td>
+                    <td>{{ opinion.useful }}</td>
+                    <td>{{ opinion.useless }}</td>
+                    <td>{{ opinion.post_date }}</td>
+                    <td>{{ opinion.purchase_date if opinion.purchase_date else 'Brak' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault(); // Zapobiegaj domyślnemu zachowaniu linku
+
+                    const row = this.closest('tr');
+                    const truncatedSpan = row.querySelector('.truncated-text');
+                    const fullSpan = row.querySelector('.full-text');
+
+                    if (fullSpan.style.display === 'none') {
+                        truncatedSpan.style.display = 'none';
+                        fullSpan.style.display = 'inline';
+                        this.textContent = 'czytaj mniej';
+                    } else {
+                        truncatedSpan.style.display = 'inline';
+                        fullSpan.style.display = 'none';
+                        this.textContent = 'czytaj więcej';
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

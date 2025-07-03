@@ -1,0 +1,56 @@
+{# app/opinions/templates/products.html #}
+{% extends "base.html" %}
+{% block title %}Lista Produktów{% endblock %}
+{% block content %}
+    <h1>Lista Produktów z Opiniami</h1>
+    {% if products %}
+        <table class="table table-hover table-bordered table-striped text-center">
+            <thead>
+                <tr>
+                    <th scope="col" rowspan="2">ID Produktu</th>
+                    <th scope="col" rowspan="2">Nazwa Produktu</th> {# Dodana kolumna #}
+                    <th scope="col" rowspan="2">Liczba Opinii</th> {# Dodana kolumna #}
+                    <th scope="col" rowspan="2">Średnia Ocena</th> {# Dodana kolumna #}
+                    <th scope="col" colspan="3">Rekomendacje</th> {# Zmienione na colspan #}
+                    <th scope="col" rowspan="2">Liczba Zalet</th> {# Dodana kolumna #}
+                    <th scope="col" rowspan="2">Liczba Wad</th> {# Dodana kolumna #}
+                    <th scope="col" rowspan="2" colspan="3">Akcje</th>
+                </tr>
+                <tr>
+                    
+                    <th scope="col">Polecam</th> {# Pod nagłówkiem Rekomendacje #}
+                    <th scope="col">Nie polecam</th> {# Pod nagłówkiem Rekomendacje #}
+                    <th scope="col">Brak oceny</th> {# Pod nagłówkiem Rekomendacje #}
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for product_data in products %}
+                    <tr>
+                        <td><a href="{{ url_for('opinions.product', product_id=product_data.id) }}">{{ product_data.id }}</a></td>
+                        <td>{{ product_data.product_name }}</td>
+                        <td>{{ product_data.opinions_count }}</td>
+                        <td>{{ product_data.average_stars|round(2) }}</td>
+                        {# Kolory dla rekomendacji #}
+                        <td style="background-color:rgba(0, 255, 0, 0.281);"> {{ product_data.recommendation_distr.Polecam or 0 }}</td>
+                        <td style="background-color:rgba(255, 0, 0, 0.281);"> {{ product_data.recommendation_distr.get('Nie polecam', 0) }}</td>
+                        <td style="background-color:rgba(255, 255, 0, 0.281);"> {{ product_data.recommendation_distr.get('Brak oceny', 0) }}</td>
+                        <td>{{ product_data.pros_count }}</td>
+                        <td>{{ product_data.cons_count }}</td>
+                        <td>
+                            <a href="{{ url_for('opinions.download_file', product_id=product_data.id, format='json') }}" class="btn btn-info btn-sm mx-1">JSON</a> 
+                        </td>
+                        <td>
+                            <a href="{{ url_for('opinions.download_file', product_id=product_data.id, format='csv') }}" class="btn btn-info btn-sm mx-1">CSV</a>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('opinions.download_file', product_id=product_data.id, format='xlsx') }}" class="btn btn-info btn-sm mx-1">XLSX</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Brak produktów z pobranymi opiniami.</p>
+    {% endif %}
+{% endblock %}

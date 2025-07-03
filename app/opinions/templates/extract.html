@@ -4,9 +4,10 @@ Ekstrakcja Opinii
 {% endblock %}
 {% block content %}
     <div class="text-center">
+        <h3>Wprowadź kod produktu z Ceneo, aby pobrać opinie:</h3>
     </div>
     <br />
-    <form method="POST" action="{{ url_for('extract_data') }}">
+    <form method="POST" action="{{ url_for('opinions.extract_data') }}">
         <div class="row">
             <div class="col d-flex justify-content-end align-items-baseline">
                 <label for="product_id" class="form-label">Podaj kod produktu</label>
@@ -18,5 +19,5 @@ Ekstrakcja Opinii
                     <button type="submit" class="btn btn-primary mb-3 col">Pobierz opinie</button>
             </div>
         </div>
-      </form>
+    </form>
 {% endblock %}

@@ -1,7 +1,18 @@
 from flask import Flask
 
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-from app import views
+    # Rejestracja Blueprintu dla głównych tras
+    from app.main.routes import main_bp
+    app.register_blueprint(main_bp)
 
-app.run()
+    # Rejestracja Blueprintu dla opinii
+    from app.opinions.routes import opinions_bp
+    app.register_blueprint(opinions_bp)
+
+    # TA LINIA ZOSTAŁA USUNIĘTA: from app import views
+
+    return app
+
+app = create_app()
